@@ -300,3 +300,103 @@ export interface DashboardData {
   low_stock: LowStockRow[];
   discrepancies: DiscrepancyRow[];
 }
+
+// ---- N-day stock predictor (mirrors backend/models/stocking.py) ----
+
+export interface PartyPolicy {
+  customer_code: string;
+  customer_name: string;
+  include: boolean;
+  days: number | null;
+}
+
+export interface StockPolicy {
+  default_days: number;
+  parties: PartyPolicy[];
+}
+
+export interface PartyContribution {
+  customer_code: string;
+  customer_name: string;
+  qty_sold: number;
+  avg_daily: number;
+  days: number;
+  requirement: number;
+}
+
+export interface StockRequirementRow {
+  part_number: string;
+  item_name: string;
+  moq: number;
+  qty_sold: number;
+  avg_daily: number;
+  raw_requirement: number;
+  requirement: number;
+  on_hand: number;
+  free: number;
+  in_open_po: number;
+  to_order: number;
+  parties: PartyContribution[];
+}
+
+export interface StockRequirement {
+  default_days: number;
+  period_days: number;
+  period_from: string;
+  period_to: string;
+  tally_rows: number;
+  app_invoice_rows: number;
+  included_parties: number;
+  rows: StockRequirementRow[];
+}
+
+export interface SalesHistoryStats {
+  tally_rows: number;
+  tally_qty: number;
+  period_from: string;
+  period_to: string;
+}
+
+// ---- Firm X ↔ Firm Y reconciliation (mirrors backend/models/reconciliation.py) ----
+
+export interface FirmXLine {
+  id: string;
+  part_number: string;
+  item_name: string;
+  qty: number;
+  rate: number;
+  amount: number;
+}
+
+export interface FirmXInvoice {
+  id: string;
+  invoice_no: string;
+  invoice_date: string;
+  notes: string;
+  lines: FirmXLine[];
+  total: number;
+  created_at: string;
+}
+
+export interface ReconRow {
+  part_number: string;
+  item_name: string;
+  received_qty: number;
+  billed_qty: number;
+  difference: number;
+  status: "matched" | "to_be_billed" | "over_billed";
+  received_value: number;
+  billed_value: number;
+  value_difference: number;
+}
+
+export interface ReconSummary {
+  rows: ReconRow[];
+  to_be_billed_parts: number;
+  over_billed_parts: number;
+  matched_parts: number;
+  to_be_billed_qty: number;
+  over_billed_qty: number;
+  to_be_billed_value: number;
+  firmx_invoice_count: number;
+}

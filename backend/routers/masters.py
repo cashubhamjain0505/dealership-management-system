@@ -272,6 +272,25 @@ async def download_template(kind: str, _: dict = Depends(require_staff)):
                 ["VINV-1001", "Vendor A", "VEND-A", "2026-01-15", "PO-2026-0001", "SUZ-67890", "Oil Filter", 10, 8, 280, 480],
             ],
         ),
+        "sales-history": (
+            "SalesHistory",
+            "tally_sales_history_template.xlsx",
+            ["Invoice No", "Invoice Date", "Customer Code", "Customer Name", "Part Number", "Item Name", "Qty"],
+            [
+                ["TLY-001", "2025-04-05", "CUST001", "Royal Motors", "SUZ-BP-101", "Brake Pad Set — Front (Gixxer)", 12],
+                ["TLY-001", "2025-04-05", "CUST001", "Royal Motors", "SUZ-OF-310", "Oil Filter (Access 125)", 30],
+                ["TLY-002", "2025-04-18", "CUST002", "Speedy Bikes", "SUZ-SP-118", "Spark Plug (Iridium)", 40],
+            ],
+        ),
+        "firmx-invoices": (
+            "FirmXInvoices",
+            "firmx_invoice_template.xlsx",
+            ["Invoice No", "Invoice Date", "Part Number", "Item Name", "Qty", "Rate"],
+            [
+                ["INV-X-1001", "2026-01-28", "SUZ-BP-101", "Brake Pad Set — Front (Gixxer)", 45, 1200],
+                ["INV-X-1001", "2026-01-28", "SUZ-OF-310", "Oil Filter (Access 125)", 100, 210],
+            ],
+        ),
     }
     if kind not in specs:
         raise HTTPException(404, f"Unknown template '{kind}'")

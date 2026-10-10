@@ -61,7 +61,7 @@ async def get_status_checks():
     return [StatusCheck(**status_check) for status_check in status_checks]
 
 # Feature routers — each module exports `router`; all mounted under /api
-from routers import auth, billing, dashboard, masters, orders, purchase, stock, vendor  # noqa: E402
+from routers import auth, billing, dashboard, masters, orders, purchase, reconciliation, stock, stocking, vendor  # noqa: E402
 
 api_router.include_router(auth.router)
 api_router.include_router(masters.router)
@@ -70,6 +70,8 @@ api_router.include_router(billing.router)
 api_router.include_router(purchase.router)
 api_router.include_router(vendor.router)
 api_router.include_router(stock.router)
+api_router.include_router(stocking.router)
+api_router.include_router(reconciliation.router)
 api_router.include_router(dashboard.router)
 
 # Include the router in the main app

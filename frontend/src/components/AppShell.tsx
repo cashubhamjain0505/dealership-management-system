@@ -2,6 +2,7 @@ import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import {
   AlertTriangle,
+  ArrowLeftRight,
   Boxes,
   Calculator,
   CheckSquare,
@@ -11,6 +12,7 @@ import {
   LogOut,
   Receipt,
   ShoppingCart,
+  TrendingUp,
   Truck,
 } from "lucide-react";
 import { toast } from "sonner";
@@ -33,6 +35,8 @@ const TABS = [
   { to: "/vendor-invoices", label: "Vendor Invoices", icon: Truck },
   { to: "/short-items", label: "Short Received", icon: AlertTriangle },
   { to: "/stock", label: "Warehouse Stock", icon: Boxes },
+  { to: "/stock-planner", label: "Stock Planner", icon: TrendingUp },
+  { to: "/reconciliation", label: "Firm X ↔ Y", icon: ArrowLeftRight },
 ];
 
 export default function AppShell() {

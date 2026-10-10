@@ -45,7 +45,10 @@ def po_to_out(doc: dict) -> PurchaseOrderOut:
 @router.get("/purchase/balance", response_model=list[BalanceRow])
 async def balance_rows(_: dict = Depends(require_staff)):
     orders = await db.orders.find({}).to_list(2000)
-    open_pos = await db.purchase_orders.find({"status": {"$in": list(OPEN_PO_STATUSES)}}).to_list(2000)
+    # Stock-plan POs are not raised against customer orders, so they must not net off customer demand.
+    open_pos = await db.purchase_orders.find(
+        {"status": {"$in": list(OPEN_PO_STATUSES)}, "po_type": {"$ne": "stock"}}
+    ).to_list(2000)
     items = {d["part_number"]: d for d in await db.items.find({}).to_list(5000)}
     agg: dict[str, dict] = {}
     for order in orders:

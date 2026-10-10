@@ -28,6 +28,11 @@ INDEXES: dict[str, list[IndexModel]] = {
     "stock": [IndexModel([("part_number", ASCENDING)], name="part_number", unique=True)],
     "short_items": [IndexModel([("status", ASCENDING), ("created_at", DESCENDING)], name="status_created")],
     "sessions": [IndexModel([("token", ASCENDING)], name="token", unique=True)],
+    "sales_history": [
+        IndexModel([("part_number", ASCENDING), ("date", DESCENDING)], name="part_date"),
+        IndexModel([("source", ASCENDING)], name="source"),
+    ],
+    "firmx_invoices": [IndexModel([("invoice_no", ASCENDING)], name="invoice_no", unique=True)],
 }
 
 

@@ -14,8 +14,10 @@ import Masters from "@/pages/Masters";
 import Orders from "@/pages/Orders";
 import PriceList from "@/pages/PriceList";
 import Purchase from "@/pages/Purchase";
+import Reconciliation from "@/pages/Reconciliation";
 import ShortItems from "@/pages/ShortItems";
 import Stock from "@/pages/Stock";
+import Stocking from "@/pages/Stocking";
 import VendorInvoices from "@/pages/VendorInvoices";
 
 // Gates every tab on the shared staff session. While the check is in flight a branded
@@ -68,6 +70,8 @@ export default function App() {
         <Route path="/vendor-invoices" element={<VendorInvoices />} />
         <Route path="/short-items" element={<ShortItems />} />
         <Route path="/stock" element={<Stock />} />
+        <Route path="/stock-planner" element={<Stocking />} />
+        <Route path="/reconciliation" element={<Reconciliation />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

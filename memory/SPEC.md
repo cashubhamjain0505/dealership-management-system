@@ -67,6 +67,32 @@ See `memory/test_credentials.md`.
 - Firm X ↔ Firm Y purchase reconciliation (company→Firm X receipts vs Firm X→Firm Y billing,
   difference carried to next month).
 
+## Not built yet
+- Live e-invoicing/e-way bill filing — still SIMULATED; waiting on the customer's GSP/ASP account
+  (Masters India / ClearTax / IRIS / NIC). Adapter + `GST_MODE` switch already in place.
+
+## Stock Planner (`/stock-planner`)
+Configurable N-day stock cover (default 14, `settings` doc `_id: "stock_policy"`).
+- Sales baseline = uploaded Tally invoices (`sales_history`, source "tally") **plus** every invoice
+  raised in the app (`invoices` lines) — the average updates itself as new bills are made.
+- Party selection: each customer can be included/excluded, and can carry its own days override.
+- Requirement per part = Σ over included parties of (party's daily average × that party's days),
+  rounded **up to the item MOQ**. To order = requirement − free stock − qty on open POs.
+- `POST /api/stocking/generate-po` creates a PO tagged `po_type: "stock"`; the customer-order
+  balance screen excludes those POs so stock buying never nets off customer demand.
+- Endpoints: GET/PUT `/api/stocking/policy`, POST `/api/stocking/sales-upload`,
+  GET/DELETE `/api/stocking/sales-history`, GET `/api/stocking/requirement`,
+  POST `/api/stocking/generate-po`. Template: `/api/templates/sales-history`.
+
+## Firm X ↔ Firm Y Reconciliation (`/reconciliation`)
+- Received side = quantities approved into Firm Y's stock from vendor invoices (status "received").
+- Billed side = `firmx_invoices` (Firm X → Firm Y). Firm X sends a PDF, so lines are entered
+  manually or via Excel upload — deliberately not parsed from the PDF (misread tax figures).
+- Realtime per-part report: difference = received − billed → `to_be_billed` (+), `over_billed` (−)
+  or `matched`, with value difference; downloadable via `/api/reconciliation/export`.
+- Endpoints: GET/POST/DELETE `/api/firmx-invoices`, POST `/api/firmx-invoices/upload`,
+  GET `/api/reconciliation`, GET `/api/reconciliation/export`. Template: `/api/templates/firmx-invoices`.
+
 ## Verification
 Backend pytest specs: `backend/tests/test_tscheck_*.py`. Browser checks (re-runnable by name):
 `.emergent/scripts/checks/` — includes `public-preview-ingress-dashboard` which runs against the
