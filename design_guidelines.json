@@ -1,0 +1,259 @@
+{
+  "project_name": "Suzuki 2-Wheeler Spare Parts DMS & ERP Command Center",
+  "archetype": "ARCHETYPE 4: SWISS & HIGH-CONTRAST + INDUSTRIAL PRECISION",
+  "app_type": "dashboard",
+  "theme_strategy": {
+    "default_theme": "light",
+    "theme_toggle": true,
+    "philosophy": "Crisp industrial precision tailored for Indian B2B automotive parts distribution. High-contrast tabular clarity with dense ergonomic data layouts, instant Indian Rupee formatting (₹), HSN GST categorization, multi-state DMS allocation workflows, and visual discrepancy alerts (>1% MRP diff flag, allocated-not-received badges)."
+  },
+  "typography": {
+    "font_family_heading": "Outfit, system-ui, sans-serif",
+    "font_family_body": "IBM Plex Sans, monospace, sans-serif",
+    "font_family_mono": "IBM Plex Mono, monospace",
+    "font_sources": [
+      "@import \"@fontsource-variable/outfit\";",
+      "@import \"@fontsource/ibm-plex-sans\";",
+      "@import \"@fontsource/ibm-plex-mono\";"
+    ],
+    "scale_px": {
+      "display": 48,
+      "h1": 36,
+      "h2": 28,
+      "h3": 20,
+      "h4": 16,
+      "body": 14,
+      "caption": 12
+    },
+    "letter_spacing": {
+      "headings": "tracking-tight",
+      "labels": "tracking-wider uppercase text-xs font-semibold",
+      "mono_data": "tracking-normal font-mono"
+    }
+  },
+  "colors": {
+    "surfaces": [
+      {
+        "name": "page",
+        "kind": "solid",
+        "bg": "#F8FAFC",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#475569",
+        "roles": {
+          "link": "#0284C7",
+          "error": "#DC2626",
+          "success": "#16A34A",
+          "warning": "#D97706",
+          "tag_mrp_alert": "#BE123C"
+        }
+      },
+      {
+        "name": "panel",
+        "kind": "solid",
+        "bg": "#FFFFFF",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#64748B",
+        "roles": {
+          "border": "#E2E8F0",
+          "active_tab": "#0284C7",
+          "row_hover": "#F1F5F9"
+        }
+      },
+      {
+        "name": "table_header",
+        "kind": "solid",
+        "bg": "#F1F5F9",
+        "on_bg": "#1E293B",
+        "on_bg_muted": "#475569"
+      },
+      {
+        "name": "inverse",
+        "kind": "solid",
+        "bg": "#0F172A",
+        "on_bg": "#F8FAFC",
+        "on_bg_muted": "#94A3B8"
+      },
+      {
+        "name": "glass_header",
+        "kind": "glass",
+        "contrast_against": "#0F172A",
+        "guarantee": "backdrop-blur-md bg-white/90 border-b border-slate-200 shadow-sm",
+        "on_bg": "#0F172A",
+        "on_bg_muted": "#475569"
+      },
+      {
+        "name": "status_allocated",
+        "kind": "solid",
+        "bg": "#E0F2FE",
+        "on_bg": "#0369A1",
+        "on_bg_muted": "#0284C7"
+      },
+      {
+        "name": "status_short_received",
+        "kind": "solid",
+        "bg": "#FFE4E6",
+        "on_bg": "#BE123C",
+        "on_bg_muted": "#E11D48"
+      },
+      {
+        "name": "status_po_ready",
+        "kind": "solid",
+        "bg": "#FEF3C7",
+        "on_bg": "#B45309",
+        "on_bg_muted": "#D97706"
+      },
+      {
+        "name": "status_billed",
+        "kind": "solid",
+        "bg": "#DCFCE7",
+        "on_bg": "#15803D",
+        "on_bg_muted": "#16A34A"
+      }
+    ],
+    "accent": "#0284C7",
+    "on_accent": "#FFFFFF",
+    "brand_suzuki_red": "#DC2626",
+    "brand_suzuki_blue": "#0369A1"
+  },
+  "entry_surfaces": {
+    "/": "industrial command dashboard with process-step tabbar, quick action metrics ribbon, and split inventory-allocation workbench",
+    "/login": "compact split staff portal with Suzuki Genuine Parts branding on left and shared quick-PIN/credential form on right"
+  },
+  "navigation_structure": {
+    "type": "tab_per_process",
+    "tabs": [
+      {
+        "id": "dashboard",
+        "label": "Command Center",
+        "icon": "LayoutDashboard",
+        "badge": "Live"
+      },
+      {
+        "id": "masters",
+        "label": "Masters & Items",
+        "icon": "Database",
+        "description": "Parts Catalog (Part No, HSN, MRP, Alt Part No) & Customers (GST, Wholesaler/Retailer, Dealer Code, Discount %, MOQ)"
+      },
+      {
+        "id": "price_list",
+        "label": "Price List & NDP Formula",
+        "icon": "Calculator",
+        "description": "NDP upload with automatic MRP formula (NDP * 1.18 / 0.78), tag MRP validation"
+      },
+      {
+        "id": "customer_orders",
+        "label": "Customer Orders & Quotation",
+        "icon": "FileSpreadsheet",
+        "description": "Upload customer Excel orders, auto quotation generation with live MRP and alternate part fallback"
+      },
+      {
+        "id": "stock_allocation",
+        "label": "Stock Allocation",
+        "icon": "CheckSquare",
+        "description": "Interactive tick-to-allocate warehouse stock to customer orders, split ready-to-bill vs balance"
+      },
+      {
+        "id": "billing",
+        "label": "GST Invoicing & E-Way / IRN",
+        "icon": "Receipt",
+        "description": "Generate GST invoices (Tag MRP based, HSN breakdown, Customer discount), Bill to Different Customer toggle, simulated/live E-Invoice (IRN) and E-Way Bill generation API"
+      },
+      {
+        "id": "purchase_orders",
+        "label": "Balance Orders & DMS PO",
+        "icon": "ShoppingCart",
+        "description": "Balance parts from unfilled orders, voluntary qty column, auto PO# & Ref#, DMS-ready Excel export"
+      },
+      {
+        "id": "vendor_invoices",
+        "label": "Vendor Invoices & GRN",
+        "icon": "Truck",
+        "description": "Upload vendor invoices, allocated-not-received tracking, tag-MRP entry with >1% variance alert flag, approve into stock"
+      },
+      {
+        "id": "short_items",
+        "label": "Short Received Report",
+        "icon": "AlertTriangle",
+        "description": "Track vendor short supplies, auto removal upon vendor resupply"
+      },
+      {
+        "id": "stock_inventory",
+        "label": "Warehouse Stock",
+        "icon": "Boxes",
+        "description": "Real-time stock on hand, bin locations, reserved vs free stock"
+      },
+      {
+        "id": "stocking_14day",
+        "label": "14-Day Stock Predictor",
+        "icon": "TrendingUp",
+        "description": "Tally invoice history analysis, 14-day retailer buffer rounded to MOQ, auto PO generation"
+      },
+      {
+        "id": "reconciliation",
+        "label": "Firm X ↔ Y Reconciliation",
+        "icon": "ArrowLeftRight",
+        "description": "Company billed to Firm X vs sold by Firm Y reconciliation report and next-month billing queue"
+      }
+    ]
+  },
+  "layout_and_density_rules": {
+    "grid_strategy": "High Density Grid (MODE B) - 100% data visibility, sticky table headers, compact row height (h-10 / py-2)",
+    "container_padding": "p-4 md:p-6 lg:p-8",
+    "card_padding": "p-4 md:p-5",
+    "table_style": "border border-slate-200 dark:border-slate-800 rounded-lg overflow-hidden bg-white dark:bg-slate-900 shadow-xs",
+    "number_formatting": "Locale: en-IN (e.g., ₹1,24,500.00, ₹850.00), right-aligned numeric columns with tabular nums font-mono",
+    "excel_handling": "Dedicated drag-and-drop Excel upload zone with sample template download button for Parts, Customers, Customer Orders, and Vendor Invoices"
+  },
+  "motion_and_micro_interactions": {
+    "library": "motion (from motion/react)",
+    "transitions": "transition-colors duration-150 ease-out, transition-transform duration-150 ease-out",
+    "tab_switching": "fade-in slide-up micro-transition (opacity: 0 -> 1, y: 4 -> 0 in 180ms)",
+    "allocation_checkbox": "tactile bounce and instantaneous row highlight color shift when ticked",
+    "toast_notifications": "Sonner bottom-right toast with richColors for instant feedback on Excel uploads, allocation saves, and IRN generations"
+  },
+  "accessibility": {
+    "contrast_standard": "WCAG AA (4.5:1 minimum on all text against respective solid/glass surfaces)",
+    "keyboard_navigation": "Full arrow-key and tab-key traversal across data tables and allocation checkboxes",
+    "data_testids": "Strict kebab-case data-testid on every tab button, action button, input, checkbox, table row, and modal trigger"
+  },
+  "image_urls": [
+    {
+      "category": "hero_and_branding",
+      "url": "https://images.unsplash.com/photo-1771402629441-95e637743f93?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzV8MHwxfHNlYXJjaHwyfHxtb3RvcmN5Y2xlJTIwcGFydHMlMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTE2NTA4OTF8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Two-wheeler motorcycle workshop and spare parts tuning station",
+      "placement": "Login screen visual panel and branding header watermark"
+    },
+    {
+      "category": "workshop_tools",
+      "url": "https://images.unsplash.com/photo-1762604462421-fff920b0c418?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NzV8MHwxfHNlYXJjaHwzfHxtb3RvcmN5Y2xlJTIwcGFydHMlMjB3b3Jrc2hvcHxlbnwwfHx8fDE3OTE2NTA4OTF8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Precision automotive tools and lubricants",
+      "placement": "Command center quick-stats decoration"
+    }
+  ],
+  "instructions_to_main_agent": {
+    "formula_specifications": {
+      "ndp_to_mrp": "MRP = NDP * 1.18 / 0.78 (where NDP is Net Dealer Price, 1.18 represents 18% GST baseline, 0.78 accounts for dealer margin factor)",
+      "mrp_variance_alert": "flag when abs(purchase_mrp - tag_mrp) / tag_mrp > 0.01 (1% threshold) — visually mark row in Rose/Red (#BE123C) with badge 'MRP Discrepancy > 1%' and trigger vendor claim note option",
+      "stocking_14day": "14-day stock requirement = ceil((total_sales_in_period / days_in_period) * 14 / moq) * moq"
+    },
+    "e_invoicing_and_eway_mock": {
+      "mode": "Provider adapter pattern with Live / Simulated toggle in UI",
+      "simulated_features": "Generate 64-character alphanumeric IRN (Invoice Reference Number), signed QR code mockup, Acknowledgement Number & Date, and 12-digit E-Way Bill Number with Validity date and transporter vehicle details",
+      "gst_invoice_print": "Complete printable / downloadable GST Tax Invoice format including: Seller GSTIN, Buyer GSTIN, Invoice No, HSN Summary table (HSN Code, Taxable Value, CGST Rate%, CGST Amt, SGST Rate%, SGST Amt, Total), Discount applied, Tag MRP, Net Payable, and IRN barcode"
+    },
+    "excel_parser_and_exporter": {
+      "library": "pandas / openpyxl on backend + client-side XLSX export helper with sample templates for instant download",
+      "templates_required": [
+        "parts_master_template.xlsx",
+        "customer_master_template.xlsx",
+        "customer_order_upload.xlsx",
+        "price_list_ndp.xlsx",
+        "vendor_invoice_upload.xlsx",
+        "dms_purchase_order_export.xlsx"
+      ]
+    },
+    "shared_staff_login": {
+      "design": "Clean, quick PIN or username/password staff switcher with predefined roles: Staff, Store Manager, Billing Clerk, and Owner, allowing smooth one-click fast switching in development/demo mode"
+    }
+  }
+}

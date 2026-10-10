@@ -1,0 +1,139 @@
+{
+  "iteration": 1,
+  "mode": "retest",
+  "summary": "Re-ran full existing backend (17 tests) and browser-check suite (8 checks) after the HSN/GST-rate projection fix in orders.py, plus finished/persisted the balance->PO->vendor->short-items lane and added a new public-preview-ingress browser check. All 9 browser checks and all 8 backend test files pass.",
+  "passed": 17,
+  "failed": 0,
+  "checks": [
+    {
+      "criterion": "Invoice lines and HSN summary carry the item master's real HSN and GST rate (regression of the fixed bug)",
+      "name": "test_tscheck_billing_invoice.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest: invoice for SUZ-SP-118 line hsn=85111000 gst_rate=28, hsn_summary row hsn=85111000 gst_rate=28; 18% part line/summary stayed at gst_rate=18. All assertions passed."
+    },
+    {
+      "criterion": "Invoice lines and HSN summary carry the item master's real HSN and GST rate (regression of the fixed bug)",
+      "name": "billing-creates-gst-invoice-with-bill-to-other",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted): created invoice SI-2026-00021 for SUZ-SP-118 x4 at tag MRP 400, CUST004 bill-to-other flow. Response line hsn='85111000', gst_rate=28, cgst=224, sgst=224; hsn_summary row hsn='85111000' gst_rate=28. Printable invoice screenshot confirms non-blank HSN."
+    },
+    {
+      "criterion": "Balance to PO, vendor receipt, shortage and resupply end to end",
+      "name": "test_tscheck_balance_po_vendor.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: PO generated from balance+voluntary qty with PO-... number and ref containing source order ref; vendor invoice Allocated-Not-Received status; receive with MRP variance flag; approve-and-stock adds qty to warehouse stock and creates short row; resupply resolves short row and returns qty to stock."
+    },
+    {
+      "criterion": "Balance to PO, vendor receipt, shortage and resupply end to end",
+      "name": "balance-po-vendor-receipt-and-short-items",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: full flow exercised in UI - balance row ticked with voluntary qty -> PO generated (PO-... number, ref contains source order ref, DMS xlsx link) -> vendor invoice created (Allocated Not Received) -> received qty entered with MRP variance flagged -> Approve & Take Into Stock closed dialog, incremented warehouse stock, created short row -> resupply on Short Received tab resolved it and returned stock."
+    },
+    {
+      "criterion": "One check must exercise the public preview ingress rather than localhost",
+      "name": "public-preview-ingress-dashboard",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "New check navigates to https://bike-parts-desk.preview.emergentagent.com/login, logs in with staff password 'suzuki123', lands on /dashboard on that same public host, and polls (since the public ingress loads ~2-6s slower than localhost) until Command Center cards resolve from placeholder dashes to real figures: PENDING ORDERS=33, READY TO BILL=12, OPEN PURCHASE ORDERS=6, STOCK VALUE=Rs 7,16,892.77, matching a direct curl of /api/dashboard on the same host."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - login gating",
+      "name": "login-gates-app-and-rejects-wrong-password",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: anonymous visit to /billing redirects to /login; wrong password shows inline error and stays on /login; correct password ('suzuki123') reaches /dashboard."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - dashboard real numbers",
+      "name": "dashboard-shows-real-numbers",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: Pending Orders card resolved from dash to a real number within 15s of login on localhost."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - masters + templates",
+      "name": "test_tscheck_masters_items_customers.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: item/customer master CRUD and template endpoints return 200 with expected fields for tscheck- prefixed fixtures."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - masters + templates",
+      "name": "masters-items-customers-and-templates",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: new customer added via UI and visible in table; Excel template downloaded successfully."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - price list formula and variance flag",
+      "name": "test_tscheck_price_list_mrp.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: NDP->MRP formula computed correctly and >1% tag/system MRP variance flagged true, <1% variance flagged false."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - price list formula and variance flag",
+      "name": "price-list-mrp-formula-and-variance-flag",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: SUZ-SP-118 row shows computed MRP; editing NDP in dialog recalculates MRP per formula."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - order quotation with discount",
+      "name": "test_tscheck_order_quotation.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: order quotation priced from tag MRP with customer discount_percent applied correctly to taxable/total."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - order quotation with discount",
+      "name": "order-quotation-prices-from-mrp-with-discount",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: line filled, quotation reflects customer discount, order saved and visible in orders table."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - stock allocation tick-to-allocate",
+      "name": "test_tscheck_stock_allocation.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: ticking allocation reserves warehouse stock and reduces free qty for the created fixture part."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - stock allocation tick-to-allocate",
+      "name": "stock-allocation-tick-to-allocate",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: ticking allocation row reserves stock, warehouse stock screenshot confirms reserved qty updated."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - e-invoice IRN/EWB simulated + idempotent",
+      "name": "test_tscheck_einvoice_irn_ewb.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: IRN/EWB generation returns simulated=true payloads; re-fetching the same invoice returns the identical IRN/EWB (idempotent)."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - e-invoice IRN/EWB simulated + idempotent",
+      "name": "einvoice-irn-ewb-simulated-idempotent",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Re-run (reran-persisted) PASSED: generated EWB for SI-2026-00022 with irn.simulated=true, ewb.simulated=true; reopening invoice shows identical IRN confirmed idempotent."
+    },
+    {
+      "criterion": "Previously passing lanes still pass - auth login backend",
+      "name": "test_tscheck_auth_login.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed: valid staff password returns session cookie / logged_in true; wrong password rejected with 401."
+    }
+  ],
+  "bugs": [],
+  "action_items": [],
+  "retest_needed": false,
+  "notes": "17 checks total (8 backend test files run as a single pytest session = 17 passed assertions-worth of test cases, 9 browser checks) covering all 4 acceptance_matrix criteria (matrix criteria count = 4, within the 8-criterion cap). The previously found HIGH severity HSN/GST-rate projection bug is confirmed fixed by both the backend test and the billing browser check. The new public-preview-ingress-dashboard check required polling (toPass with retries) because the public ingress dashboard stats fetch resolves a few seconds slower than localhost; this is network latency, not a defect - data matches a direct curl against the same public host. All checks under /app/.emergent/scripts/checks/ are clean (no stray .backup files)."
+}
